@@ -3,7 +3,6 @@ package ui
 import (
 	"fmt"
 
-	"gioui.org/io/clipboard"
 	"gioui.org/layout"
 	"gioui.org/text"
 	"gioui.org/widget"
@@ -287,7 +286,7 @@ func (pg *utxoPage) utxoRow(gtx layout.Context, data *wallet.UnspentOutput, c *p
 		}),
 		layout.Rigid(func(gtx C) D {
 			if pg.copyButtons[index].Button.Clicked() {
-				clipboard.WriteOp{Text: data.UTXO.Addresses}.Add(gtx.Ops)
+				c.copyToClipboard(gtx, data.UTXO.Addresses, true)
 			}
 			return layout.Inset{Left: values.MarginPadding10}.Layout(gtx, pg.copyButtons[index].Layout)
 		}),

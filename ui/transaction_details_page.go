@@ -5,7 +5,6 @@ import (
 	"image/color"
 	"strings"
 
-	"gioui.org/io/clipboard"
 	"gioui.org/layout"
 	"gioui.org/widget"
 
@@ -479,16 +478,16 @@ func (pg *transactionDetailsPage) handle() {
 
 	for _, b := range pg.copyTextBtn {
 		for b.Button.Clicked() {
-			clipboard.WriteOp{Text: b.Text}.Add(gtx.Ops)
+			common.copyToClipboard(*gtx, b.Text, true)
 		}
 	}
 
 	for pg.hashClickable.Clicked() {
-		clipboard.WriteOp{Text: pg.transaction.Hash}.Add(gtx.Ops)
+		common.copyToClipboard(*gtx, pg.transaction.Hash, true)
 	}
 
 	for pg.destAddressClickable.Clicked() {
-		clipboard.WriteOp{Text: pg.txDestinationAddress}.Add(gtx.Ops)
+		common.copyToClipboard(*gtx, pg.txDestinationAddress, true)
 	}
 }
 

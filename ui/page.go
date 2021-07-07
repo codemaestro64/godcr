@@ -13,6 +13,7 @@ import (
 	"golang.org/x/text/message"
 
 	"gioui.org/gesture"
+	"gioui.org/io/clipboard"
 	"gioui.org/io/key"
 	"gioui.org/layout"
 	"gioui.org/op/paint"
@@ -130,6 +131,7 @@ type pageCommon struct {
 	changePage       func(string)
 	setReturnPage    func(string)
 	changeFragment   func(Page, string)
+	writeClipboard   func(string)
 }
 
 type (
@@ -500,5 +502,12 @@ func (common *pageCommon) subpageEventHandler(sp SubPage) {
 
 	if sp.extraItem != nil && sp.extraItem.Clicked() {
 		sp.handleExtra()
+	}
+}
+
+func (common *pageCommon) copyToClipboard(gtx C, text string, notify bool) {
+	clipboard.WriteOp{Text: text}.Add(gtx.Ops)
+	if notify {
+		common.notify("Copied!", true)
 	}
 }

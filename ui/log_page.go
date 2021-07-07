@@ -3,7 +3,6 @@ package ui
 import (
 	"sync"
 
-	"gioui.org/io/clipboard"
 	"gioui.org/layout"
 	"gioui.org/unit"
 	"gioui.org/widget"
@@ -49,16 +48,12 @@ func LogPage(common *pageCommon) Page {
 	return pg
 }
 
-func (pg *logPage) OnResume() {
-
-}
+func (pg *logPage) OnResume() {}
 
 func (pg *logPage) copyLogEntries(gtx C) {
-	go func() {
-		pg.entriesLock.Lock()
-		defer pg.entriesLock.Unlock()
-		clipboard.WriteOp{Text: pg.fullLog}.Add(gtx.Ops)
-	}()
+	pg.entriesLock.Lock()
+	pg.common.copyToClipboard(gtx, pg.fullLog, true)
+	pg.entriesLock.Unlock()
 }
 
 func (pg *logPage) watchLogs(internalLog chan string) {

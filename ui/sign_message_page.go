@@ -3,7 +3,6 @@ package ui
 import (
 	"image/color"
 
-	"gioui.org/io/clipboard"
 	"gioui.org/layout"
 	"gioui.org/widget"
 
@@ -240,7 +239,7 @@ func (pg *signMessagePage) handle() {
 	}
 
 	if pg.copySignature.Clicked() {
-		clipboard.WriteOp{Text: pg.signedMessageLabel.Text}.Add(gtx.Ops)
+		common.copyToClipboard(*gtx, pg.signedMessageLabel.Text, true)
 	}
 }
 

@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"gioui.org/io/clipboard"
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/text"
@@ -354,8 +353,7 @@ func (pg *receivePage) handle() {
 	}
 
 	if pg.copy.Button.Clicked() {
-
-		clipboard.WriteOp{Text: pg.currentAddress}.Add(gtx.Ops)
+		common.copyToClipboard(*gtx, pg.currentAddress, false)
 
 		pg.copy.Text = "Copied!"
 		pg.copy.Color = common.theme.Color.Success
